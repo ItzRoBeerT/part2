@@ -9,6 +9,7 @@ const App = () => {
 	const [newName, setNewName] = useState('');
 	const [newPhone, setNewPhone] = useState('');
 	const [filter, setFilter] = useState('');
+	const [userAdded, setUserAdded] = useState(false)
 
 	useEffect(() => {
 		console.log('Effect');
@@ -33,6 +34,7 @@ const App = () => {
 				setNewName('');
 				setNewPhone('');
 				console.log('Person added:', response);
+				setUserAdded(`Added ${response.name}`)
 			});
 		} else {
 			if (personExists.phone !== newPerson.phone) {
@@ -80,6 +82,7 @@ const App = () => {
 	return (
 		<div>
 			<h2>Phonebook</h2>
+			{userAdded && <h3 className='success'>{userAdded}</h3>}
 
 			<Filter filter={filter} onChange={handleFilterChange} />
 
