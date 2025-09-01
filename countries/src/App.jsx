@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import countriesServices from './services/countries';
-import Countries from './components/countries';
+import Countries from './components/Countries';
 
 function App() {
 	const [searchTerm, setSearchTerm] = useState('');
