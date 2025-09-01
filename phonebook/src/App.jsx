@@ -51,6 +51,12 @@ const App = () => {
 		setFilter(event.target.value);
 	};
 
+	const handleDelete = (id) => {
+		phoneService.deletePerson(id).then(() => {
+			setPersons(persons.filter((person) => person.id !== id));
+		});
+	};
+
 	const filteredNumbers = filter ? persons.filter((person) => person.name.toLowerCase().includes(filter)) : persons;
 
 	console.log('Filtered numbers:', filteredNumbers);
@@ -73,7 +79,7 @@ const App = () => {
 			/>
 
 			<h3>Numbers</h3>
-			<Persons persons={filteredNumbers} />
+			<Persons persons={filteredNumbers} handleDelete={handleDelete} />
 		</div>
 	);
 };

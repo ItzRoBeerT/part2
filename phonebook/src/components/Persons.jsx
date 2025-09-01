@@ -1,11 +1,11 @@
-const Persons = ({ persons }) => {
+const Persons = ({ persons, handleDelete }) => {
 	console.log('Rendering persons:', persons);
 
 	return (
 		<ul>
 			{persons.map((person) => (
 				<li key={person.id}>
-					{person.name} {person.phone}
+					{person.name} {person.phone} <button onClick={() => handleDelete(person.id)}>Delete</button>
 				</li>
 			))}
 		</ul>
