@@ -9,7 +9,8 @@ const App = () => {
 	const [newName, setNewName] = useState('');
 	const [newPhone, setNewPhone] = useState('');
 	const [filter, setFilter] = useState('');
-	const [userAdded, setUserAdded] = useState(false)
+	const [userAdded, setUserAdded] = useState('');
+	const [error, setError] = useState('');
 
 	useEffect(() => {
 		console.log('Effect');
@@ -34,7 +35,7 @@ const App = () => {
 				setNewName('');
 				setNewPhone('');
 				console.log('Person added:', response);
-				setUserAdded(`Added ${response.name}`)
+				setUserAdded(`Added ${response.name}`);
 			});
 		} else {
 			if (personExists.phone !== newPerson.phone) {
@@ -43,13 +44,21 @@ const App = () => {
 						`${personExists.name} is already added to phonebook, replace the old number with the new one`
 					)
 				) {
-					phoneService.updatePerson(personExists.id, newPerson).then((updatedPerson) => {
-						console.log('updated Person', updatedPerson);
+					phoneService
+						.updatePerson(personExists.id, newPerson)
+						.then((updatedPerson) => {
+							console.log('updated Person', updatedPerson);
 
-						setPersons(persons.map((person) => (person.id === updatedPerson.id ? updatedPerson : person)));
-						setNewName('');
-						setNewPhone('');
-					});
+							setPersons(
+								persons.map((person) => (person.id === updatedPerson.id ? updatedPerson : person))
+							);
+							setNewName('');
+							setNewPhone('');
+						})
+						.catch((error) => {
+							console.error('Error updating person:', error);
+							setError(`Error updating person: ${error.message}, he is probably not in the phonebook`);
+						});
 				}
 			} else alert(`${newName} is already added to phonebook`);
 		}
@@ -82,7 +91,8 @@ const App = () => {
 	return (
 		<div>
 			<h2>Phonebook</h2>
-			{userAdded && <h3 className='success'>{userAdded}</h3>}
+			{userAdded && <h3 className="success">{userAdded}</h3>}
+			{error && <h3 className="error">{error}</h3>}
 
 			<Filter filter={filter} onChange={handleFilterChange} />
 
