@@ -35,7 +35,21 @@ const App = () => {
 				console.log('Person added:', response);
 			});
 		} else {
-			alert(`${newName} is already added to phonebook`);
+			if (personExists.phone !== newPerson.phone) {
+				if (
+					window.confirm(
+						`${personExists.name} is already added to phonebook, replace the old number with the new one`
+					)
+				) {
+					phoneService.updatePerson(personExists.id, newPerson).then((updatedPerson) => {
+						console.log('updated Person', updatedPerson);
+
+						setPersons(persons.map((person) => (person.id === updatedPerson.id ? updatedPerson : person)));
+						setNewName('');
+						setNewPhone('');
+					});
+				}
+			} else alert(`${newName} is already added to phonebook`);
 		}
 	};
 
