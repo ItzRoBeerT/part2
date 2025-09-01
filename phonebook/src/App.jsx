@@ -52,9 +52,10 @@ const App = () => {
 	};
 
 	const handleDelete = (id) => {
-		phoneService.deletePerson(id).then(() => {
-			setPersons(persons.filter((person) => person.id !== id));
-		});
+		window.confirm('Are you sure you want to delete this contact?') &&
+			phoneService.deletePerson(id).then(() => {
+				setPersons(persons.filter((person) => person.id !== id));
+			});
 	};
 
 	const filteredNumbers = filter ? persons.filter((person) => person.name.toLowerCase().includes(filter)) : persons;
